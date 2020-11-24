@@ -6,7 +6,6 @@ from hero import Hero
 from team import Team
 from random import choice
 
-
 class Arena:
 
     def __init__(self):
@@ -173,7 +172,7 @@ class Arena:
 
     def winning_team(self, team_one, team_one_survival_count, team_two, team_two_survival_count):
         if team_one_survival_count and team_two_survival_count:
-            print("{:=^50}".format("Draw!No winner could be choosen").upper())
+            print("{:-^50}".format("Draw!No winner could be choosen").upper())
             self.previous_winner = None
         elif team_one_survival_count:
             p = f"{team_one.name} won"
@@ -218,11 +217,11 @@ if __name__ == "__main__":
     team_two = Team("Team Two")
 
     print("\n")
-    print("{:=^50}".format("WELCOME TO THE ARENA"))
+    print("{:-^50}".format("WELCOME TO THE ARENA"))
     print("\n")
 
     reward_weapons = [
-        Weapon("Syth", 80),
+        Weapon("Big boots", 80),
         Weapon("Pillow", 63),
         Weapon("super bright flash light", 72),
         Weapon("Water gun", 92)
@@ -258,3 +257,29 @@ if __name__ == "__main__":
 
             if edit_team.lower() == "y":
                 arena.build_team(team_one)
+
+
+if __name__ == "__main__":
+    game_is_running = True
+
+    # Instantiate Game Arena
+    arena = Arena()
+
+    #Build Teams
+    arena.build_team(team_one)
+    arena.build_team(team_two)
+
+    while game_is_running:
+
+        arena.team_battle(team_one,team_two)
+        arena.show_stats(team_one,team_two)
+        play_again = input("Play Again? Y or N: ")
+
+        #Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            #Revive heroes to play again
+            team_one.revive_heroes()
+            team_two.revive_heroes()

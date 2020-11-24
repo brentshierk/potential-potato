@@ -1,6 +1,7 @@
-import random
-from Ability import Ability
-from Armor import Armor
+from armor import Armor
+from ability import Ability
+from weapon import Weapon
+
 class Hero:
     def __init__(self,name,starting_health=100):
         self.name = name
@@ -17,6 +18,11 @@ class Hero:
     
     def add_armor(self,armor):
         self.armors.append(armor)
+
+    def add_spell(self, spell):
+        self.abilities.append(spell)
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
 
 
     def attack(self):
