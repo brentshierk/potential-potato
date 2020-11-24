@@ -6,9 +6,9 @@ class Armor:
         self.max_block = max_block
         
         
-    def block(self):
-        random_val = random.randint(0,self.max_block)
-        return random_val
+    def defend(self):
+        block_val = random.randint(0,self.max_block)
+        return block_val
 
 if __name__ == "__main__":
     # If you run this file from the terminal

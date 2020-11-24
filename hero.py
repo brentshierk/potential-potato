@@ -7,18 +7,16 @@ class Hero:
         self.starting_health = 100
         self.current_health = starting_health
         self.abilities = list()
-        self.armours = list()
+        self.armors = list()
+        self.deaths = 0
+        self.kills = 0
 
-
-    def fight(self,hero,opponent):
-        winner = random.choice([hero,opponent])
-        print(winner.name,'has won!')
 
     def add_ability(self,ability):
         self.abilities.append(ability)
     
     def add_armor(self,armor):
-        self.armours.append(armor)
+        self.armors.append(armor)
 
 
     def attack(self):
@@ -28,23 +26,60 @@ class Hero:
             total_damgae += ability.attack()
         return total_damgae
     
-    def defend(self,damage_amt):
+    def defend(self):
         damage_amt = 0
 
-        for armor in self.armours:
+        for armor in self.armors:
             damage_amt += armor.defend()
         return damage_amt
+    
+    def take_damage(self,damage_amt):
+        self.current_health -= damage_amt + self.defend()
+        if self.current_health < 0:
+            self.current_health = 0
+    
+    def is_alive(self):
+        if self.current_health > 0:
+            return True
+        else:
+            return False
+
+    def add_kill(self, num_kills=1):
+        """Update self.kills by num_kills amount"""
+        self.kills += num_kills
+
+    def add_death(self, num_deaths=1):
+        """Update deaths with num_deaths"""
+        self.deaths += num_deaths
+
+    
+    def fight(self, opponent):
+        """Hero will take turns fighting the opponent hero passed in."""
+
+        if len(self.abilities) == 0 and len(opponent.abilities) == 0:
+            print("Draw".upper())
+            return 0
+
+        while self.is_alive() and opponent.is_alive():
+            print(f"{self.name} attacked {opponent.name}")
+            opponent.take_damage(self.attack())
+            print(f"{opponent.name}'s remaining health: {opponent.current_health}")
+            if opponent.is_alive():
+                print(f"{opponent.name} attacked {self.name}")
+                self.take_damage(opponent.attack())
+                print(f"{self.name}'s remaining health: {self.current_health}")
+
+        if not self.is_alive():
+            opponent.add_kill(1)
+            self.add_death(1)
+            print(f"\n{self.name} has been killed by {opponent.name}\n".upper())
+            return opponent.name
+        elif not opponent.is_alive():
+            opponent.add_death(1)
+            self.add_kill(1)
+            print(f"\n{opponent.name} has been killed by {self.name}\n".upper())
+            return self.name
 
 
 
 
-
-if __name__ == "__main__":
-    # If you run this file from the terminal
-    # this block of code is executed.
-    ability = Ability("Great Debugging", 50)
-    another_ability = Ability("Smarty Pants", 90)
-    hero = Hero("Grace Hopper", 200)
-    hero.add_ability(ability)
-    hero.add_ability(another_ability)
-    print(hero.attack())
