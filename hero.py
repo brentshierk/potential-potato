@@ -45,16 +45,13 @@ class Hero:
             return False
 
     def add_kill(self, num_kills=1):
-        """Update self.kills by num_kills amount"""
         self.kills += num_kills
 
     def add_death(self, num_deaths=1):
-        """Update deaths with num_deaths"""
         self.deaths += num_deaths
 
     
     def fight(self, opponent):
-        """Hero will take turns fighting the opponent hero passed in."""
 
         if len(self.abilities) == 0 and len(opponent.abilities) == 0:
             print("Draw".upper())
